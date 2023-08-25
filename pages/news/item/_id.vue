@@ -38,8 +38,7 @@
     gap: 35px;
     border: 1px solid #919191;
     border-radius: 20px;
-    margin: auto;
-    margin-top: 20px;
+    margin: 20px auto auto;
   }
   .description h3 {
     font-weight: bold;

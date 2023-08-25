@@ -53,9 +53,7 @@
 <style module>
   .container {
     width: 70%;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px auto;
   }
   .container h1 {
     font-weight: bold;
