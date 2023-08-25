@@ -9,9 +9,22 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.13.6",
     "core-js": "^3.6.5",
+    "express": "^4.18.2",
+    "multer": "1.1.0",
+    "express-formidable": "^1.2.0",
+    "fs": "^0.0.1-security",
+    "net": "^1.0.2",
     "nuxt": "^2.14.6",
     "nuxt-buefy": "^0.4.3"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/node": "^20.5.3"
+  },
+  "browser": {
+    "fs": false,
+    "os": false,
+    "path": false
+  }
 }

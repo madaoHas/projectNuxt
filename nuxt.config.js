@@ -35,5 +35,12 @@ export default {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-  }
+  },
+  // serverMiddleware: {
+  //   '/api': '~/api'
+  // },
+  axios: {
+    // baseURL: 'http://example.com',
+    browserBaseURL: 'http://localhost:3000',
+  },
 }

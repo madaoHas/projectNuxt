@@ -1,20 +1,13 @@
 # newsProject
 
-## Build Setup
+1) Выполните команду:
+   npm install
 
-```bash
-# install dependencies
-$ npm install
+2) Для запуска сервера необходимо выполнить команду:
+   node server
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+3) Для запуска проекта необходимо выполнить команду в другом терминале:
+   npm run dev
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+4) Откройте проект по адресу:
+   http://localhost:3000/news
