@@ -40,6 +40,9 @@ export const actions = {
   async addNews({commit}, formData) {
     try {
       await NewsAPI.addNews(formData)
+      let newNews = await NewsAPI.getNewsOnPage(1)
+      commit('getNews', newNews.news)
+      commit('getTotal', newNews.total)
     } catch (error) {
       console.log(error)
     }

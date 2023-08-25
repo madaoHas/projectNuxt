@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/add`">
+  <NuxtLink :to="`/add`" :class="$style.button">
     <b-button type="is-primary">Добавить статью</b-button>
   </NuxtLink>
 </template>
@@ -9,3 +9,9 @@ export default {
 
 }
 </script>
+
+<style module>
+  .button {
+    width: 200px;
+  }
+</style>

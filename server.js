@@ -1,9 +1,12 @@
 const multer  =   require('multer');
 const express = require('express')
 const fs = require("fs")
+require('dotenv').config()
 const app = express()
-const port = 3333
+const port = process.env.SERVER_PORT
 const filePath = "./news.json";
+
+
 
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) =>{
@@ -27,34 +30,27 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/news:page', (req, res) => {
+app.get('/:page', (req, res) => {
   const page = req.params.page.substring(1);
   let news = {};
-  fs.access("./news.json", function(error){
-    if (error) {
-      let news = {
-        news: []
-      };
-      let data = JSON.stringify(news,null,2);
-      fs.writeFileSync("./news.json", data, function(err){
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("Файл создан");
-          const content = fs.readFileSync(filePath,"utf8");
-          news = JSON.parse(content);
-        }
-      });
-    } else {
-      const content = fs.readFileSync(filePath,"utf8");
-      console.log(content)
-      news = JSON.parse(content);
-    }
-  });
-
-  console.log(news)
-  // const content = fs.readFileSync(filePath,"utf8");
-  // const news = JSON.parse(content);
+  try {
+    fs.accessSync("./news.json", fs.constants.F_OK)
+    const content = fs.readFileSync(filePath,"utf8");
+    news = JSON.parse(content);
+  } catch (error) {
+    let newsNew = {
+      news: []
+    };
+    let data = JSON.stringify(newsNew,null,2);
+    fs.writeFileSync("./news.json", data, function(err){
+      if (err) {
+        console.log(err);
+      } else {
+        const content = fs.readFileSync(filePath,"utf8");
+        news = JSON.parse(content);
+      }
+    });
+  }
 
   let idNews = 0
   if (page > 1) {
@@ -68,7 +64,7 @@ app.get('/news:page', (req, res) => {
   }
   res.send({news: newNews, total: news.news.length})
 })
-app.get('/news/item/id:id', (req, res) => {
+app.get('/item/id:id', (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
   const id = req.params.id.substring(1);
@@ -78,10 +74,15 @@ app.get('/news/item/id:id', (req, res) => {
   res.send(newNews)
 })
 
-app.post('/news/add', upload.single('img'), (req, res) => {
+app.post('/add', upload.single('img'), (req, res) => {
   const content = fs.readFileSync(filePath,"utf8");
   const news = JSON.parse(content);
-  let id = news.news[news.news.length - 1].id + 1
+  let id;
+  if (news.news.length === 0) {
+    id = 0
+  } else {
+    id = news.news[news.news.length - 1].id + 1
+  }
   let newRecord = req.body
   newRecord.id = id;
   newRecord.img = '/img/'+req.file.filename

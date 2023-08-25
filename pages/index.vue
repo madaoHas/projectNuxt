@@ -17,7 +17,6 @@ import ButtonAdd from "~/components/ButtonAdd";
 import NewsList from "~/components/NewsList";
 
 export default {
-  name: 'HomePage',
    data() {
     return {
       current: 1,
