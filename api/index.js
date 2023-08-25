@@ -3,7 +3,6 @@ import axios from "axios";
 const instance = axios.create({
   withCredentials: false,
   baseURL: "http://localhost:3333/"
-  // baseURL: process.env.NUXT_APP_URL_BASE
 })
 
 export const NewsAPI = {

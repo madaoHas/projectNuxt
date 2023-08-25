@@ -8,9 +8,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addNews(state, newsItem) {
-    state.news.push(newsItem)
-  },
   getNews(state, news) {
     state.news = news
   },

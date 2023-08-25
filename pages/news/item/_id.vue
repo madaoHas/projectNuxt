@@ -18,12 +18,7 @@
     },
     computed: {
       news() {
-        for (let item of this.$store.state.news) {
-          if (item.id == this.id) {
-            return this.$store.state.newsItem
-          }
-        }
-        this.redirect("/news")
+        return this.$store.state.newsItem
       }
     },
     created() {

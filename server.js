@@ -4,7 +4,6 @@ const express = require('express')
 const fs = require("fs")
 const app = express()
 const port = 3333
-// app.use(formidable());
 const filePath = "./news.json";
 
 const storageConfig = multer.diskStorage({
