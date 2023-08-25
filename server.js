@@ -29,19 +29,32 @@ app.use(function (req, res, next) {
 
 app.get('/news:page', (req, res) => {
   const page = req.params.page.substring(1);
-  fs.access("filename.txt", function(error){
+  let news = {};
+  fs.access("./news.json", function(error){
     if (error) {
-      fs.writeFile("./news.json", "{news: []}", function(err){
+      let news = {
+        news: []
+      };
+      let data = JSON.stringify(news,null,2);
+      fs.writeFileSync("./news.json", data, function(err){
         if (err) {
           console.log(err);
         } else {
           console.log("Файл создан");
+          const content = fs.readFileSync(filePath,"utf8");
+          news = JSON.parse(content);
         }
       });
+    } else {
+      const content = fs.readFileSync(filePath,"utf8");
+      console.log(content)
+      news = JSON.parse(content);
     }
   });
-  const content = fs.readFileSync(filePath,"utf8");
-  const news = JSON.parse(content);
+
+  console.log(news)
+  // const content = fs.readFileSync(filePath,"utf8");
+  // const news = JSON.parse(content);
 
   let idNews = 0
   if (page > 1) {
