@@ -28,9 +28,18 @@ app.use(function (req, res, next) {
 });
 
 app.get('/news:page', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
   const page = req.params.page.substring(1);
+  fs.access("filename.txt", function(error){
+    if (error) {
+      fs.writeFile("./news.json", "{news: []}", function(err){
+        if (err) {
+          console.log(err);
+        } else {
+          console.log("Файл создан");
+        }
+      });
+    }
+  });
   const content = fs.readFileSync(filePath,"utf8");
   const news = JSON.parse(content);
 

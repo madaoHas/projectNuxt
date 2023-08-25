@@ -8,7 +8,7 @@
       <div class="navbar-brand">
         <NuxtLink
           class="navbar-item"
-          to="/news"
+          to="/"
         >
           <img
             src="~assets/buefy.png"

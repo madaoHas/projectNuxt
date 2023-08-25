@@ -6,7 +6,7 @@
       <div>{{news.text}}</div>
     </div>
     <div :class="$style.linkNews">
-      <NuxtLink :to="`news/item/${news.id}`">
+      <NuxtLink :to="`/item/${news.id}`">
         <b-button type="is-primary" expanded>Подробнее</b-button>
       </NuxtLink>
     </div>
@@ -30,6 +30,7 @@
   }
   .news img {
     height: 200px;
+    object-fit: cover;
   }
   .description {
     display: flex;
