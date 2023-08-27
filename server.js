@@ -10,15 +10,16 @@ const filePath = "./news.json";
 
 const storageConfig = multer.diskStorage({
   destination: (req, file, cb) =>{
-    fs.readdir(__dirname+'/static/img', (err, files) => {
-      if(err) {
+    fs.stat(__dirname+'/static/img', function(err) {
+      if (err) {
         fs.mkdirSync(__dirname+'/static/img', err => {
           if(err) throw err; // не удалось создать папку
-          console.log('Папка успешно создана');
         });
+        cb(null, __dirname+'/static/img');
+      } else {
+        cb(null, __dirname+'/static/img');
       }
     });
-    cb(null, "static/img");
   },
   filename: (req, file, cb) =>{
     cb(null, file.originalname);
