@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const NewsAPI = {
   getNewsOnPage(currentPage) {
-    return instance.get(`/`+currentPage)
+    return instance.get(`/:`+currentPage)
       .then(response => response.data)
   },
   getSelectedNews(id) {
