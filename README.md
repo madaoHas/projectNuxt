@@ -5,9 +5,9 @@
 2) Выполните команду:
    npm install
 
-3) .env.example испровить в .env
+3) .env.example скопировать и переименовать в .env
 
-4) news.json.example исправить в news.json
+4) news.json.example скопировать и переименовать в news.json
 
 5) Для запуска api-сервера необходимо выполнить команду:
    node server

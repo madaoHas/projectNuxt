@@ -37,10 +37,9 @@ export default {
   build: {
   },
   axios: {
-    // browserBaseURL: 'http://localhost:3000',
-    browserBaseURL: 'http://127.0.0.1:3333',
+    browserBaseURL: process.env.API_URL_BASE || 'http://127.0.0.1:3333/',
   },
   env: {
-    baseUrl: process.env.API_URL_BASE || 'http://localhost:3333'
+    baseUrl: process.env.API_URL_BASE || 'http://127.0.0.1:3333/'
   }
 }

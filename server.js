@@ -39,65 +39,85 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.get('/:page', (req, res) => {
-  const page = req.params.page.substring(1);
-  let news = {};
+app.get('/news/:page', (req, res) => {
   try {
-    fs.accessSync("./news.json", fs.constants.F_OK)
-    const content = fs.readFileSync(filePath,"utf8");
-    news = JSON.parse(content);
-  } catch (error) {
-    let newsNew = {
-      news: []
-    };
-    let data = JSON.stringify(newsNew,null,2);
-    fs.writeFileSync("./news.json", data, function(err){
-      if (err) {
-        console.log(err);
-      } else {
-        const content = fs.readFileSync(filePath,"utf8");
-        news = JSON.parse(content);
-      }
-    });
-  }
-
-  let idNews = 0
-  if (page > 1) {
-    idNews = (page - 1) * 6;
-  }
-  let newNews = [];
-  for (let item = 0; item < 6; item++) {
-    if (idNews+item < news.news.length) {
-      newNews.push(news.news[idNews+item])
+    const page = req.params.page;
+    let news = {};
+    try {
+      fs.accessSync("./news.json", fs.constants.F_OK)
+      const content = fs.readFileSync(filePath,"utf8");
+      news = JSON.parse(content);
+    } catch (error) {
+      let newsNew = {
+        news: []
+      };
+      let data = JSON.stringify(newsNew,null,2);
+      fs.writeFileSync("./news.json", data, function(err){
+        if (err) {
+          console.log(err);
+        } else {
+          const content = fs.readFileSync(filePath,"utf8");
+          news = JSON.parse(content);
+        }
+      });
     }
+    let idNews = 0
+    if (page > 1) {
+      idNews = (page - 1) * 6;
+    }
+    let newNews = [];
+    for (let item = 0; item < 6; item++) {
+      if (idNews+item < news.news.length) {
+        newNews.push(news.news[idNews+item])
+      }
+    }
+    res.send({news: newNews, total: news.news.length})
+  } catch (error) {
+    console.log(error)
+    res.status(500)
+    res.send(error.toString())
   }
-  res.send({news: newNews, total: news.news.length})
+
 })
-app.get('/item/id:id', (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
-  const id = req.params.id.substring(1);
-  const content = fs.readFileSync(filePath,"utf8");
-  const news = JSON.parse(content);
-  let newNews = news.news.filter((item) => item.id == id)
-  res.send(newNews)
+app.get('/news/item/:id', (req, res) => {
+  try {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'origin, content-type, accept');
+    const id = req.params.id;
+    const content = fs.readFileSync(filePath,"utf8");
+    const news = JSON.parse(content);
+    let newNews = news.news.filter((item) => item.id == id)
+    res.send(newNews)
+  } catch (error) {
+    console.log(error)
+    res.status(500)
+    res.send(error.toString())
+  }
+
 })
 
-app.post('/add', upload.single('img'), (req, res) => {
-  const content = fs.readFileSync(filePath,"utf8");
-  const news = JSON.parse(content);
-  let id;
-  if (news.news.length === 0) {
-    id = 0
-  } else {
-    id = news.news[news.news.length - 1].id + 1
+app.post('/news/add', upload.single('img'), (req, res) => {
+  try {
+    const content = fs.readFileSync(filePath,"utf8");
+    const news = JSON.parse(content);
+    let id;
+    if (news.news.length === 0) {
+      id = 0
+    } else {
+      id = news.news[news.news.length - 1].id + 1
+    }
+    let newRecord = req.body
+    newRecord.id = id;
+    newRecord.img = '/img/'+req.file.filename
+    news.news.push(newRecord)
+    fs.writeFileSync(filePath, JSON.stringify(news))
+    res.send('Success')
+  } catch (error) {
+    console.log(error)
+    res.status(500)
+    res.send(error.toString())
   }
-  let newRecord = req.body
-  newRecord.id = id;
-  newRecord.img = '/img/'+req.file.filename
-  news.news.push(newRecord)
-  fs.writeFileSync(filePath, JSON.stringify(news))
-  res.send('Hello World!')
+
 })
 
 app.listen(port, () => {
